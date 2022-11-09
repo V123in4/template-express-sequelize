@@ -6,13 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "seq:init": "sequelize init"
+    "dev": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "mysql2": "^2.3.3",
     "sequelize": "^6.25.5"
   },
   "devDependencies": {

@@ -1,6 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
-const categoryRouter = require('./routers/category')
-const commentRouter = require('./routers/comment')
+const categoryRouter = require('./routers/category');
+const commentRouter = require('./routers/comment');
+
+const { Article, Categories } = require('../db/models/index');
+
 
 class CustomError extends Error {
   code = null;
@@ -83,4 +88,4 @@ app.use(function (err, req, res, next) {
   }
 });
 
-app.listen(3001);
+app.listen(3002);
