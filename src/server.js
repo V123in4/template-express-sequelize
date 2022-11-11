@@ -1,70 +1,24 @@
 require('dotenv').config();
 
 const express = require('express');
-const categoryRouter = require('./routers/category');
-const commentRouter = require('./routers/comment');
+const jwt = require('jsonwebtoken');
 
-const { Article, Categories } = require('../db/models/index');
-
-
-class CustomError extends Error {
-  code = null;
-  status = null;
-
-  constructor(message, code, status) {
-    super(message)
-    this.code = code;
-    this.status = status;
-  }
-}
+const userRouter = require('./domains/users/router');
+const { CustomError } = require('./errors/customError');
+const { asyncHandler } = require('./helpers/asyncHandler');
+const { authenticated } = require('./middlewares/authenticated');
 
 const app = express();
 
 app.use(express.json());
 
-app.use(function (req, res, next) {
-  if (req.headers.token === undefined) {
-    throw new CustomError('token required', 'AUTH_FAILED', 403);
-  }
+app.use('/users', userRouter);
 
-  if (req.headers.token !== 'abcd') {
-    throw new CustomError('token wrong', 'TOKEN_WRONG', 401);
-  }
-
-  // kalau gak ada masalah
-  next();
-});
-
-app.use(categoryRouter);
-app.use(commentRouter);
-
-const handler0 = function (req, res, next) {
-  console.log('ini middleware sebelum main handler');
-  next();
-};
-
-const handler1 = function (req, res, next) {
-  res.json({
-    foo: 'bar'
-  });
-  next();
-}
-
-const handler2 = function (req, res, next) {
-  console.log('ini middleware setelah main handler')
-}
-
-app.get('/blog', handler0, handler1, handler2);
-
-app.post('/blog', function (req, res, next) {
-  // handle authen X
-  // handle autho X
-  console.log(req.headers.token);
-  console.log(req.body);
-  res.json({
-    result: 'blog created!'
-  });
-});
+app.get('/protected', authenticated, asyncHandler(async function(req, res) {
+  res.status(200).json({
+    message: 'you are authenticated!'
+  })
+}));
 
 app.all('*', function (req, res) {
   res.status(404).json({
@@ -73,7 +27,7 @@ app.all('*', function (req, res) {
 });
 
 // middleware error handler
-app.use(function (err, req, res, next) {
+app.use(async function (err, req, res, next) {
   console.error(err);
 
   if (err instanceof CustomError) {
