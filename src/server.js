@@ -1,24 +1,17 @@
 require('dotenv').config();
 
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const todosRouter = require('./domains/todos/router');
+const usersRouter = require('./domains/users/router');
 
-const userRouter = require('./domains/users/router');
 const { CustomError } = require('./errors/customError');
-const { asyncHandler } = require('./helpers/asyncHandler');
-const { authenticated } = require('./middlewares/authenticated');
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/users', userRouter);
-
-app.get('/protected', authenticated, asyncHandler(async function(req, res) {
-  res.status(200).json({
-    message: 'you are authenticated!'
-  })
-}));
+app.use('/v1/users', usersRouter);
+app.use('/v1/todos', todosRouter);
 
 app.all('*', function (req, res) {
   res.status(404).json({

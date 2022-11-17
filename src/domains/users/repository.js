@@ -8,6 +8,17 @@ module.exports = {
     })
   },
 
+  getUserById: async function(id) {
+    const user = await Users.findOne({
+      where: {
+        id
+      },
+      raw: true
+    });
+
+    return user;
+  },
+
   getUserByUsername: async function(username) {
     const user = await Users.findOne({
       where: {
