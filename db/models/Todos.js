@@ -1,6 +1,13 @@
 const { Model } = require('sequelize');
 
-class Todos extends Model {}
+class Todos extends Model {
+  static associate(model) {
+    this.belongsTo(model.Users, {
+      as: 'users',
+      foreignKey: 'user_id',
+    });
+  }
+}
 
 function model(sequelize, DataTypes) {
   Todos.init({

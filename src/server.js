@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.use('/v1/users', usersRouter);
 app.use('/v1/todos', todosRouter);
+app.use('/v1/roles', rolesRouter);
 
 app.all('*', function (req, res) {
   res.status(404).json({
@@ -35,4 +36,4 @@ app.use(async function (err, req, res, next) {
   }
 });
 
-app.listen(3002);
+app.listen(3005);

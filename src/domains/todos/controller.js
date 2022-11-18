@@ -1,3 +1,4 @@
+const { test } = require("./repository");
 const repository = require("./repository");
 
 module.exports = {
@@ -22,5 +23,10 @@ module.exports = {
 
   delete: async function(req, res) {
     return {};
+  },
+
+  test: async function(req, res) {
+    const result = await test();
+    return res.json(result)
   }
 };
