@@ -1,8 +1,8 @@
 require('dotenv').config();
 
 const express = require('express');
-const todosRouter = require('./domains/todos/router');
-const usersRouter = require('./domains/users/router');
+// const todosRouter = require('./domains/todos/router');
+// const usersRouter = require('./domains/users/router');
 
 const { CustomError } = require('./errors/customError');
 
@@ -10,9 +10,14 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/v1/users', usersRouter);
-app.use('/v1/todos', todosRouter);
-app.use('/v1/roles', rolesRouter);
+app.get('ping', async function(req, res) {
+  res.json({
+    hello: 'world'
+  })
+})
+
+// app.use('/v1/users', usersRouter);
+// app.use('/v1/todos', todosRouter);
 
 app.all('*', function (req, res) {
   res.status(404).json({
@@ -36,4 +41,4 @@ app.use(async function (err, req, res, next) {
   }
 });
 
-app.listen(3005);
+app.listen(process.env.PORT || 3005);

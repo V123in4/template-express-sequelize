@@ -12,4 +12,4 @@ const routes = {
 
 buildRoutes(usersRouter, routes);
 
-module.exports = usersRouter
+module.exports = usersRouter;
