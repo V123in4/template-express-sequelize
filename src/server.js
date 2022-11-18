@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get('ping', async function(req, res) {
+app.get('/ping', async function(req, res) {
   res.json({
     hello: 'world'
   })
