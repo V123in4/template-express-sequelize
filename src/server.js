@@ -11,6 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/ping', async function(req, res) {
+  console.log('ini endppoint ping');
   res.json({
     hello: 'world'
   })
